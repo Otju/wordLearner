@@ -38,13 +38,14 @@ class Checkbar(Frame):
    def checkAll(self):
      for chk in self.chks:
        chk.select()
-
-
+dictionaryFile = open("dictionary.json", encoding="utf-8")
+dictionary = json.load(dictionaryFile)
+allWordPacketNames = list(dictionary.keys())
 currentWordNumber = 0
 def getNew():
   global currentWordNumber
   wordPacketNames = getSelectedWordPacketNames()
-  [newWord, newTranslation, newTranslitteration, dictListLength, fullDictListLength] = wordPicker.getWord(wordPacketNames, getDisableMultiWord(), getDisableOver10Letters(), rightWords, currentWordNumber)
+  [newWord, newTranslation, newTranslitteration, dictListLength, fullDictListLength] = wordPicker.getWord(wordPacketNames, getDisableMultiWord(), getDisableOver10Letters(), rightWords, currentWordNumber, dictionary)
   if(currentWordNumber==dictListLength):
       currentWordNumber = 0
   global word
@@ -105,8 +106,7 @@ difficulty.grid(row=wordDisableRow, sticky=W, column=2)
 ttk.Label(mainframe, text="Sanat").grid(column=1, row=wordDisableRow, sticky=W)
 
 
-wordPacketNames = ['Viestisanastoa', "Käskyjä"]
-wordPackets = Checkbar(mainframe, wordPacketNames)
+wordPackets = Checkbar(mainframe, allWordPacketNames)
 wordPackets.checkAll()
 wordPackets.grid(row=wordChooseRow, sticky=W, column=2)
 ttk.Label(mainframe, text="Sanastot").grid(column=1, row=wordChooseRow, sticky=W)
@@ -145,7 +145,7 @@ def getSelectedWordPacketNames():
   i = 0
   for state in states:
     if(state == 1):
-      selectedWordPackets.append(wordPacketNames[i])
+      selectedWordPackets.append(allWordPacketNames[i])
     i += 1
   return selectedWordPackets
   

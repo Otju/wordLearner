@@ -1,1 +1,1 @@
-pip3 install pyttsx3
+pip install pyttsx3

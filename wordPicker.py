@@ -40,12 +40,10 @@ engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 hasRUS = False
 for voice in voices:
-    if(voice.name.find("Russia") != -1):
+    if(re.search("Russia|Yuri", voice.name)):
         engine.setProperty('voice', voice.id)
         hasRUS = True
         break
-dictionaryFile = open("dictionary.json", encoding="utf-8")
-dictionary = json.load(dictionaryFile)
 if(not hasRUS):
     print("No Russian TTS found")
 
@@ -57,7 +55,7 @@ def setReadSpeed(speed):
     engine.setProperty('rate', speed) 
 
 goneTroughWords = []
-def getWord(wordPacketNames, disableMultiWord, disableOver10Letters, rightWords, currentWordNumber):
+def getWord(wordPacketNames, disableMultiWord, disableOver10Letters, rightWords, currentWordNumber, dictionary):
     rawDictList = []
     for name in wordPacketNames:
         rawDictList.extend(list(dictionary[name].items()))
